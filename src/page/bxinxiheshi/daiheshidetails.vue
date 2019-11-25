@@ -6,16 +6,16 @@
 		<div class="overflowauto">
 			<div class="headercon">
 				<div style="margin: 0rem .2rem .2rem .2rem;">
-					<div style="border-bottom:1px solid white;"><span>事件编号 : </span><span>{{detail.event.eventCode}}</span></div>
-					<div style="border-bottom:1px solid white;margin:.2rem 0rem;"><span>位置信息 : </span><span>{{detail.event.location}}</span></div>
+					<div style="border-bottom:1px solid white;"><span>事件编号 : </span><span>{{detail.code}}</span></div>
+					<div style="border-bottom:1px solid white;margin:.2rem 0rem;"><span>位置信息 : </span><span>{{detail.location}}</span></div>
 					<div style="border-bottom:1px solid white;margin:.2rem 0rem;"><span style="visibility: hidden;">时间</span><span>时间
-							: </span><span>{{detail.event.createDate}}</span></div>
+							: </span><span>{{detail.createDate}}</span></div>
 				</div>
 			</div>
 			<div class="zhongjian">
 				<div style="border-bottom:1px solid #F2F2F2;padding-bottom:.1rem;margin-bottom:.1rem;">
 					<div style="float:left;color:gray;"><span style="visibility: hidden;">类</span>上报人 : </div>
-					<div style="float:right;width:75%;">{{detail.eventVerifyTask.sourceName}}</div>
+					<div style="float:right;width:75%;">{{detail.sourceName}}</div>
 					<div style="clear:both;"></div>
 				</div>
 
@@ -23,7 +23,7 @@
 					<div style="float:left;color:gray;">
 						<span style="visibility: hidden;">类</span>手机号 :
 					</div>
-					<div style="float:right;width:75%;">{{detail.eventVerifyTask.sourcePhone}}</div>
+					<div style="float:right;width:75%;">{{detail.sourcePhone}}</div>
 					<div style="clear:both;"></div>
 				</div>
 
@@ -31,7 +31,7 @@
 					<div style="float:left;color:gray;">
 						信息描述 :
 					</div>
-					<div style="float:right;width:75%;">{{detail.eventVerifyTask.taskDesc}}</div>
+					<div style="float:right;width:75%;">{{detail.taskDesc}}</div>
 					<div style="clear:both;"></div>
 				</div>
 
@@ -83,6 +83,7 @@
 
 					<div style="font-size:.3;">
 						<div style="margin:.2rem 0rem;">
+							<span style="font-size: .3rem;color: red;margin-left:.3rem;">*</span>
 							<span style="font-size:.3rem;">附加照片</span>
 						</div>
 						<div class="van-uploader">
@@ -106,7 +107,8 @@
 
 					<div style="font-size:.3rem;">
 						<div style="margin:.2rem 0rem;">
-							<span style="font-size:.3rem;margin-left:.3rem;">核实情况</span>
+							<span style="font-size: .3rem;color: red;margin-left:.3rem;">*</span>
+							<span style="font-size:.3rem;">核实情况</span>
 						</div>
 						<van-cell-group>
 							<van-field v-model="message1" rows="4" autosize type="textarea" placeholder="请描述问题发生的情况，示例：某路某大厦正门的下水井盖破裂" />
@@ -118,22 +120,29 @@
 							<div style="margin:.2rem 0rem;line-height: .5rem;">
 								<span style="font-size: .3rem;color: red;margin-left:.3rem;float:left;">*</span>
 								<span style="font-size:.3rem;float:left;">位置信息</span>
-								<span style="font-size:.1rem;float:left;color: #999999;margin-left:.1rem;">信息如有误差，请点击地图手动定位</span>
+								<!-- <span style="font-size:.1rem;float:left;color: #999999;margin-left:.1rem;">信息如有误差，请点击地图手动定位</span> -->
 								<van-icon style="float:right;margin-top:.1rem;" name="arrow" />
 								<div style="clear:both;"></div>
 							</div>
 						</div>
-						<div>
+						<div style="overflow: hidden;">
 							<span style="font-size: .3rem;float: left;margin-left:.1rem;">
 								<img style="width:.5rem;" src="../../assets/dingwei.png" alt />
 								<span style="    float: right;">高新三路财富中心3期</span>
 							</span>
 						</div>
+						<div style="font-size:.3rem;">
+							<van-cell-group>
+								<van-field v-model="verifyLocationDetail" rows="4" maxlength="200" show-word-limit autosize type="textarea"
+								 placeholder="请描述具体位置，示例：某路某大厦正门向西50米" />
+							</van-cell-group>
+						</div>
 					</div>
+
 				</div>
 
 				<div>
-					<van-button @click="submitsuccess" style="width:100%;margin-top:.5rem;background:#6A7CFC;color:white;">提交</van-button>
+					<van-button @click="submitsuccess" style="width:100%;margin-top:.5rem;background:#6A7CFC;color:white;">{{!result ? '提交' : '上报此案件'}}</van-button>
 				</div>
 			</div>
 		</div>
@@ -145,11 +154,12 @@
 			return {
 				radio: "1",
 				message1: '',
-				yuanjintuimg: '',
+				yuanjintuimg: 'https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/home/img/qrcode/zbios_x2_5869f49.png',
 				fujiaimg: [{
 					url: 'https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/home/img/qrcode/zbios_x2_5869f49.png'
 				}],
-				jinjintuimg: '',
+				img_urlF: [],
+				jinjintuimg: 'https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/home/img/qrcode/zbios_x2_5869f49.png',
 				result: true,
 				detail: {},
 				value2: "",
@@ -166,9 +176,8 @@
 				message2: "",
 				deptId: "",
 				bigTypeId: "",
-				jinjintuimg: "",
-				yuanjintuimg: "",
-				localkdslighskld: "财富中心三期"
+				localkdslighskld: "财富中心三期",
+				verifyLocationDetail: ''
 			};
 		},
 		created() {
@@ -351,7 +360,7 @@
 			//选择位置
 			xuanzeweizhi() {
 				var that = this;
-				// this.$router.push("/xinxishangbaomap");
+				// this.$router.push("/xinxiheshimap");
 				//获取位置
 				var bMap = api.require("bMap");
 				bMap.getLocation({
@@ -361,8 +370,8 @@
 					},
 					function(ret, err) {
 						if (ret.status) {
-							window.localStorage.setItem("xinxishangbaodanqianlon", ret.lon);
-							window.localStorage.setItem("xinxishangbaodanqianlat", ret.lat);
+							window.localStorage.setItem("xinxiheshidanqianlon", ret.lon);
+							window.localStorage.setItem("xinxiheshidanqianlat", ret.lat);
 							bMap.open({
 									rect: {
 										x: 0,
@@ -395,11 +404,11 @@
 															function(ret, err) {
 																if (ret.status) {
 																	window.localStorage.setItem(
-																		"xinxishangbaogaibianlon",
+																		"xinxiheshigaibianlon",
 																		ret.lon
 																	);
 																	window.localStorage.setItem(
-																		"xinxishangbaogaibianlat",
+																		"xinxiheshigaibianlat",
 																		ret.lat
 																	);
 																	window.localStorage.setItem(
@@ -442,39 +451,74 @@
 			},
 			deleteImg(index) {
 				var index = index;
-				var img = this.data.img_urlF.slice(0);
-				this.img_urlF.splice(index, 1)
+				// var img = this.img_urlF.slice(0);
+				this.fujiaimg.splice(index, 1)
 			},
 			xuanzeweizhi() {
 				this.$router.push("/xinxiheshimap");
 			},
 			bian2() {},
 			submitsuccess() {
+				if (!this.result) {
+					if (this.jinjintuimg == '' || this.yuanjintuimg == '' || this.fujiaimg.length == 0) {
+						this.$toast('请填写所有必填项');
+						return
+					}
+				} else {
+					this.$router.push({
+						path: "/xinxishangbaoindex",
+						query: {
+							eventVerifyTaskId: this.$route.query.id
+						}
+					});
+					// this.$api
+					// 	.process({result:true,taskId: this.$route.query.id})
+					// 	.then(res => {
+					// 		if (res) {
+					// 			if (res.data.code == 0) {
+					// 				this.$router.push({
+					// 					path: "/xinxishangbaoindex",
+					// 					query: {
+					// 						eventVerifyTaskId: res.data.data.taskId
+					// 					}
+					// 				});
+					// 			}
+					// 		}
+					// 	})
+					// 	.catch(err => {
+					// 		console.log(err);
+					// 	});
+						return
+				}
 				let data = {
-					locationLat: window.localStorage.getItem("xinxishangbaodanqianlat"), //定位经度
+					locationLat: window.localStorage.getItem("xinxiheshidanqianlat"), //定位经度
 					imageDetailUrl: this.jinjintuimg, //近景图
 					changedLocationLat: window.localStorage.getItem(
-						"xinxishangbaogaibianlat"
+						"xinxiheshigaibianlat"
 					), //	string	非必须		修改后的纬度
 					attaches: this.fujiaimg,
 					imagePanoramaUrl: this.yuanjintuimg, //	string	非必须		远景图
 					location: this.localkdslighskld, //	string	非必须		地址
-					detail: this.message1, //	string	非必须		详情
-					locationLng: window.localStorage.getItem("xinxishangbaodanqianlon"), //	string	非必须		经度
+					resultDesc: this.message1, //	string	非必须		详情
+					locationLng: window.localStorage.getItem("xinxiheshidanqianlon"), //	string	非必须		经度
 					changedLocationLng: window.localStorage.getItem(
-						"xinxishangbaogaibianlon"
-					) //	string	非必须		修改后的经度
+						"xinxiheshigaibianlon"
+					), //	string	非必须		修改后的经度
+					verifyLocationDetail: this.verifyLocationDetail,
+					result: this.result,
+					taskId: this.$route.query.id
 				};
 				this.$api
-					.xinajianaddEvent(data)
+					.process(data)
 					.then(res => {
 						if (res) {
 							if (res.data.code == 0) {
-								window.localStorage.setItem(
-									"shangbaoshijianid",
-									res.data.data.id
-								);
-								this.$router.push("/submitsuccess");
+								this.$router.push({
+									path: "/submitdatshenhe",
+									query: {
+										id: this.$route.query.id
+									}
+								});
 							}
 						}
 					})

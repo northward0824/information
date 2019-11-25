@@ -16,11 +16,11 @@
     //     }
     // }
     if ((window.location.href).indexOf("-dev") != -1) {
-        serviceBaseUrl = 'http://192.168.134.32:8080';
+        serviceBaseUrl = 'http://39.106.161.180:8081';
     } else if ((window.location.href).indexOf("-ts") != -1) {
         serviceBaseUrl = 'http://39.106.161.180:8081';
     } else if ((window.location.href).indexOf("localhost") != -1) {
-        serviceBaseUrl = 'http://192.168.124.32:8081';
+        serviceBaseUrl = 'http://39.106.161.180:8081';
     } else {
         serviceBaseUrl = 'http://39.106.161.180:8081';
     }

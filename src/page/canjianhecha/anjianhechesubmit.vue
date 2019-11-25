@@ -23,7 +23,13 @@ export default {
        this.$router.push("/index");
    },
    lookdetails(){
-       this.$router.push("/anjianhechadetails");
+	   this.$router.push({
+	   	path: "/anjianhechadetails",
+	   	query: {
+	   		eventId: window.localStorage.getItem("anjianhechaderailsUid"),
+	   		processId:window.localStorage.getItem("processId"),
+	   	}
+	   });
    }
   }
 };

@@ -36,7 +36,7 @@
 			</van-tab>
 			<van-tab title="已核实" name="Y">
 				<div class="list-con" v-for="item in list">
-					<ul @click="weiwanchengdetails(item.id)">
+					<ul @click="yiheshi(item.id)">
 						<li style="margin-bottom:0">
 							<h3>010120191031182300</h3>
 							<div class="righslskos">
@@ -119,8 +119,13 @@
 				});
 			},
 			//已核实
-			yiheshi() {
-				this.$router.push("/yiheshidetails");
+			yiheshi(id) {
+				this.$router.push({
+					path: "/yiheshidetails",
+					query: {
+						id: id
+					}
+				});
 			}
 		}
 	};

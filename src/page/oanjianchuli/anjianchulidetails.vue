@@ -107,7 +107,7 @@
 
 
 				<div style="font-size:.3rem;">
-					<div style="font-size:.3rem;" @click="xuanzeweizhi">
+					<div style="font-size:.3rem;">
 						<div style="margin:.2rem 0rem;line-height: .5rem;">
 							<span style="font-size:.3rem;">位置信息</span>
 						</div>
@@ -142,11 +142,11 @@
 					eventId: window.localStorage.getItem("shangbaoshijianid")
 				};
 				this.$api
-					.getEventDetailsdf(data)
+					.getProcessDetail({eventId:this.$route.query.eventId,processId:this.$route.query.processId})
 					.then(res => {
 						if (res) {
 							if (res.data.code == 0) {
-								this.aa = res.data.data;
+								this.aa = res.data.data.processDetail;
 							}
 						}
 					})

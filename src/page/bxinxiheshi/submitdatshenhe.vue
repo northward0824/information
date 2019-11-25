@@ -23,7 +23,7 @@ export default {
        this.$router.push("/index");
    },
    lookdetails(){
-       this.$router.push("/chakandetailsdaishenhe");
+       this.$router.push({path:"/yiheshidetails",query:{id:this.$route.query.id}});
    }
   }
 };

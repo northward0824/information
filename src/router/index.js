@@ -56,6 +56,7 @@ const router = new Router({
   name: "xinxiheshimap",
   component: resolve => require(["../page/bxinxiheshi/xinxiheshimap.vue"], resolve)
 },
+
 {
   path: "/submitdatshenhe",
   name: "submitdatshenhe",
@@ -164,6 +165,13 @@ const router = new Router({
   name: "lishianjianhechadetails",
   component: resolve => require(["../page/flishishangbao/lishianjianhechadetails.vue"], resolve)
 },
+{
+  path: "/anjianchulidetails",
+  name: "anjianchulidetails",
+  component: resolve => require(["../page/oanjianchuli/anjianchulidetails.vue"], resolve)
+},
+
+
 
 
       {
